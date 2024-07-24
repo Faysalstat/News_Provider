@@ -29,7 +29,7 @@ public class ScheduledTask {
     public void callApi() {
         List<UserDetailDTO> users = userDetailsService.getAllUserDetails();
         for(UserDetailDTO user: users){
-            NewsDTO newsDTO =  newsService.getNewsContent(user.getPreferences());
+            List<NewsDTO> newsDTOs =  newsService.getNewsContent(user.getPreferences());
         }
     }
 }

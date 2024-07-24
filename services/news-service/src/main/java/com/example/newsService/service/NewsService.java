@@ -5,5 +5,5 @@ import com.example.newsService.dto.NewsDTO;
 import java.util.List;
 
 public interface NewsService {
-    NewsDTO getNewsContent(List<String> preferences);
+    List<NewsDTO> getNewsContent(List<String> preferences);
 }

@@ -1,6 +1,7 @@
 package com.example.newsService.serviceImp;
 
 import com.example.newsService.dto.NewsDTO;
+import com.example.newsService.dto.ResponseDTO;
 import com.example.newsService.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class NewsServiceImp implements NewsService {
     @Autowired
     private RestTemplate restTemplate;
     @Override
-    public NewsDTO getNewsContent(List<String> preferences) {
+    public List<NewsDTO> getNewsContent(List<String> preferences) {
         StringBuilder str = new StringBuilder("");
         // Traversing the ArrayList
         for (String preference : preferences) {
@@ -28,7 +29,7 @@ public class NewsServiceImp implements NewsService {
                 .queryParam("language","en")
                 .build()
                 .toUri();
-        restTemplate.getForObject(uri, String.class);
-        return new NewsDTO();
+        ResponseDTO responseDTO = restTemplate.getForObject(uri, ResponseDTO.class);
+        return responseDTO.getResults();
     }
 }

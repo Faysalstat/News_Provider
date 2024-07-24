@@ -27,7 +27,7 @@ public class SummarizerServiceImp implements SummarizerService {
         ResponseDTO responseDTO = restTemplate.postForObject(
                 "https://portal.ayfie.com/api/summarize",requestDTO, ResponseDTO.class);
         assert responseDTO != null;
-        newsDTO.setDescription(responseDTO.getResult());
+        newsDTO.setDescription(responseDTO.getResults().get(0).getDescription());
         String daprUrl = "http://localhost:3500/v1.0/publish/pubsub/mytopic";
         restTemplate.postForObject(daprUrl, newsDTO, NewsDTO.class);
         return newsDTO;

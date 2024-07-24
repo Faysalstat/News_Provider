@@ -152,7 +152,7 @@ Note: If this API-KEY doesn't work for you, create an account in the https://por
     ```
 ### Run All docker
 1. Go back to standalone folder and run the command from terminal
- 
+
     ```
     docker-compose -f ./docker-compose-all.yml up -d
     ```
