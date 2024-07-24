@@ -8,6 +8,11 @@ There are multiple services in this microservice architechture.
 Open up your terminal from the root folder.
 ### Step 1:
 Run MySql server in port 3306. Create a DB named `security`. 
+
+To Run the DB from Docker Image, go to standalone folder. and RUN
+
+       docker-compose -f ./local-db-compose.yml up -d
+    
 ### Step 2:
 Change the DB credentials in application.yml file for both "Security-Service" and "News-Service" ( username and password)
 ### Step 3:
@@ -159,7 +164,12 @@ Note: If this API-KEY doesn't work for you, create an account in the https://por
     docker build -t mail-service .
     ```
 ### Run All docker
-1. Go back to standalone folder and run the command from terminal
+1. Run The DB from Docker Compose
+    ```
+    docker-compose -f ./local-db-compose.yml up -d
+    ```
+
+2. Go back to standalone folder and run the command from terminal
  
     ```
     docker-compose -f ./docker-compose-all.yml up -d
