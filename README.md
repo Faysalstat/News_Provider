@@ -29,12 +29,19 @@ Example: Go inside the service > discovery-server open cmd and run
 ```
 mvn spring-boot:run
 ```
+### Step 5:
+After running all services, Tables will be created automatically.
+Now insert values in preference table.
+```
+INSERT INTO security.preference (`category`) 
+values ("Sprots"),("Weather"),("Politics"),("Top");
+```
 
 ### Service Details
 
 #### API-GATEWAY
 ```
-    port : 8000
+port : 8000
 ```
 ### Call the api from postman through gateway
 
@@ -66,7 +73,8 @@ POST - http://localhost:8000/auth/token
 ```
 # Validate the Token
 GET - http://localhost:8000/auth/validate
-	request param:
+
+Request Param:
 
 Param name: token
 Param value: Collect the token from Login response.
