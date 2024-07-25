@@ -18,18 +18,22 @@ public class ScheduledTask {
 
     @Autowired
     private NewsService newsService;
-
+    @Autowired
+    private final RestTemplate restTemplate = new RestTemplate();
     @Autowired
     private UserDetailsService userDetailsService;
 
     public ScheduledTask() {
     }
 
-    @Scheduled(fixedRate = 600000)
+    @Scheduled(fixedRate = 10000)
     public void callApi() {
         List<UserDetailDTO> users = userDetailsService.getAllUserDetails();
         for(UserDetailDTO user: users){
             List<NewsDTO> newsDTOs =  newsService.getNewsContent(user.getPreferences());
+            String daprUrl = "http://localhost:3500/v1.0/publish/pubsub/mytopic";
+            restTemplate.postForObject(daprUrl, newsDTOs.get(0), String.class);
+            System.out.println("Message Sent Successfully");
         }
     }
 }
