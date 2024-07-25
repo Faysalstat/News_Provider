@@ -3,6 +3,7 @@ package com.example.newsService.config;
 import com.example.newsService.dto.NewsDTO;
 import com.example.newsService.dto.UserDetailDTO;
 import com.example.newsService.service.NewsService;
+import com.example.newsService.service.SummarizerService;
 import com.example.newsService.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,6 +23,8 @@ public class ScheduledTask {
     private final RestTemplate restTemplate = new RestTemplate();
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private SummarizerService summarizerService;
 
     public ScheduledTask() {
     }
@@ -31,8 +34,10 @@ public class ScheduledTask {
         List<UserDetailDTO> users = userDetailsService.getAllUserDetails();
         for(UserDetailDTO user: users){
             List<NewsDTO> newsDTOs =  newsService.getNewsContent(user.getPreferences());
+            NewsDTO firstNews = newsDTOs.get(0);
+            NewsDTO summerizedNews = summarizerService.summarizeNewsContent(firstNews);
             String daprUrl = "http://localhost:3500/v1.0/publish/pubsub/mytopic";
-            restTemplate.postForObject(daprUrl, newsDTOs.get(0), String.class);
+            restTemplate.postForObject(daprUrl,summerizedNews, String.class);
             System.out.println("Message Sent Successfully");
         }
     }

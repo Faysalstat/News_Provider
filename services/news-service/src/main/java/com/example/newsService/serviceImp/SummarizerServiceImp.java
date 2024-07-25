@@ -5,8 +5,10 @@ import com.example.newsService.dto.RequestDTO;
 import com.example.newsService.dto.ResponseDTO;
 import com.example.newsService.service.SummarizerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+@Service
 public class SummarizerServiceImp implements SummarizerService {
     @Autowired
     private RestTemplate restTemplate;
