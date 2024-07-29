@@ -4,6 +4,8 @@ A Microservice Spring boot Application for news providing to mail
 ## Description
 There are multiple services in this microservice architechture. 
 
+## Dapr Configuration
+Find the .dapr folder in C drive. The path mostly looks like this >> C:\Users\Faysal\.dapr (Faysal will be replaced by your Pc Name). Inside this folder replace the component folder with the component folder in the file.
 ## Installation Guide
 Open up your terminal from the root folder.
 ### Step 1:
