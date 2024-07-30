@@ -3,6 +3,7 @@ package com.example.newsService.serviceImp;
 import com.example.newsService.dto.NewsDTO;
 import com.example.newsService.dto.RequestDTO;
 import com.example.newsService.dto.ResponseDTO;
+import com.example.newsService.dto.SummerizedResponse;
 import com.example.newsService.service.SummarizerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,14 @@ public class SummarizerServiceImp implements SummarizerService {
     @Autowired
     private RestTemplate restTemplate;
     @Override
-    public NewsDTO summarizeNewsContent(NewsDTO newsDTO) {
+    public SummerizedResponse summarizeNewsContent(NewsDTO newsDTO) {
         RequestDTO requestDTO = new RequestDTO();
-        String content = newsDTO.getDescription();
+        String content;
+        if(newsDTO.getDescription()== null){
+            content= newsDTO.getTitle();
+        }else{
+            content = newsDTO.getDescription();
+        }
         requestDTO.setLanguage("en");
         requestDTO.setMax_length(50);
         requestDTO.setMin_length(5);
@@ -26,12 +32,14 @@ public class SummarizerServiceImp implements SummarizerService {
                     "QCSDQTdMxOBuNCQYTFLkBvfMRuSRrjsDwTHaBmjmojbGQFMQof");
             return execution.execute(request,body);
         }));
-        ResponseDTO responseDTO = restTemplate.postForObject(
-                "https://portal.ayfie.com/api/summarize",requestDTO, ResponseDTO.class);
-        assert responseDTO != null;
-        newsDTO.setDescription(responseDTO.getResults().get(0).getDescription());
-        String daprUrl = "http://localhost:3500/v1.0/publish/pubsub/mytopic";
-        restTemplate.postForObject(daprUrl, newsDTO, NewsDTO.class);
-        return newsDTO;
+        SummerizedResponse response = new SummerizedResponse();
+        try {
+            response = restTemplate.postForObject(
+                    "https://portal.ayfie.com/api/summarize",requestDTO, SummerizedResponse.class);
+        }catch (Exception e) {
+            return response;
+        }
+
+        return response;
     }
 }

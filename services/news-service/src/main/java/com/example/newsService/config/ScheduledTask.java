@@ -1,6 +1,8 @@
 package com.example.newsService.config;
 
 import com.example.newsService.dto.NewsDTO;
+import com.example.newsService.dto.ResponseDTO;
+import com.example.newsService.dto.SummerizedResponse;
 import com.example.newsService.dto.UserDetailDTO;
 import com.example.newsService.service.NewsService;
 import com.example.newsService.service.SummarizerService;
@@ -29,15 +31,19 @@ public class ScheduledTask {
     public ScheduledTask() {
     }
 
-    @Scheduled(fixedRate = 10000)
-    public void callApi() {
+    @Scheduled(fixedRate = 3600000)
+    public void callApi() throws Exception {
         List<UserDetailDTO> users = userDetailsService.getAllUserDetails();
         for(UserDetailDTO user: users){
             List<NewsDTO> newsDTOs =  newsService.getNewsContent(user.getPreferences());
             NewsDTO firstNews = newsDTOs.get(0);
-            NewsDTO summerizedNews = summarizerService.summarizeNewsContent(firstNews);
+            SummerizedResponse summerizedNews = summarizerService.summarizeNewsContent(firstNews);
+            NewsDTO newsForPublish = new NewsDTO();
+            newsForPublish.setDescription(summerizedNews.getResult());
+            newsForPublish.setTitle(firstNews.getTitle());
+            newsForPublish.setLink(firstNews.getLink());
             String daprUrl = "http://localhost:3500/v1.0/publish/pubsub/mytopic";
-            restTemplate.postForObject(daprUrl,summerizedNews, String.class);
+            restTemplate.postForObject(daprUrl,newsForPublish, String.class);
             System.out.println("Message Sent Successfully");
         }
     }

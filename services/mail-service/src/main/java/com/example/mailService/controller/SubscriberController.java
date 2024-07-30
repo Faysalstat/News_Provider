@@ -26,13 +26,17 @@ public class SubscriberController {
         return Mono.fromRunnable(() -> {
             try {
             ObjectMapper objectMapper = new ObjectMapper();
+
             NewsDTO newsDTO = cloudEvent.getData();
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo("faysalstat04@gmail.com");
-            mailMessage.setSubject(newsDTO.getTitle());
-            mailMessage.setFrom("information@dalilinaure.com");
-            mailMessage.setText(newsDTO.getDescription());
-            emailSenderService.sendEmail(mailMessage);
+            if(newsDTO.getDescription()!=null){
+                SimpleMailMessage mailMessage = new SimpleMailMessage();
+                mailMessage.setTo("faysalstat04@gmail.com");
+                mailMessage.setSubject(newsDTO.getTitle());
+                mailMessage.setFrom("information@dalilinaure.com");
+                mailMessage.setText(newsDTO.getDescription());
+                emailSenderService.sendEmail(mailMessage);
+            }
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

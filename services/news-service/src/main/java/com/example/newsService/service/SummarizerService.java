@@ -1,7 +1,9 @@
 package com.example.newsService.service;
 
 import com.example.newsService.dto.NewsDTO;
+import com.example.newsService.dto.ResponseDTO;
+import com.example.newsService.dto.SummerizedResponse;
 
 public interface SummarizerService {
-    NewsDTO summarizeNewsContent(NewsDTO newsDTO);
+    SummerizedResponse summarizeNewsContent(NewsDTO newsDTO);
 }
