@@ -13,7 +13,7 @@ Run MySql server in port 3306. Create a DB named `security`.
 
 To Run the DB from Docker Image, go to standalone folder. and RUN
 
-       docker-compose -f ./local-db-compose.yml up -d
+       docker-compose -f ./db-docker-compose.yml up -d
     
 ### Step 2:
 Change the DB credentials in application.yml file for both "Security-Service" and "News-Service" ( username and password)
