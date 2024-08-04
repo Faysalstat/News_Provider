@@ -30,7 +30,7 @@ public class SubscriberController {
             NewsDTO newsDTO = cloudEvent.getData();
             if(newsDTO.getDescription()!=null){
                 SimpleMailMessage mailMessage = new SimpleMailMessage();
-                mailMessage.setTo("faysalstat04@gmail.com");
+                mailMessage.setTo(newsDTO.getReceiver());
                 mailMessage.setSubject(newsDTO.getTitle());
                 mailMessage.setFrom("information@dalilinaure.com");
                 mailMessage.setText(newsDTO.getDescription());

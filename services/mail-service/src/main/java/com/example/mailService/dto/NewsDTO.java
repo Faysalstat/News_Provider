@@ -13,5 +13,5 @@ public class NewsDTO {
     private String title;
     private String link;
     private String description;
-
+    private String receiver;
 }

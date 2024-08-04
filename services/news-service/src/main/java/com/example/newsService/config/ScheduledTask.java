@@ -42,6 +42,7 @@ public class ScheduledTask {
             newsForPublish.setDescription(summerizedNews.getResult());
             newsForPublish.setTitle(firstNews.getTitle());
             newsForPublish.setLink(firstNews.getLink());
+            newsForPublish.setReceiver(user.getEmail());
             String daprUrl = "http://localhost:3500/v1.0/publish/pubsub/mytopic";
             restTemplate.postForObject(daprUrl,newsForPublish, String.class);
             System.out.println("Message Sent Successfully");
